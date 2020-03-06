@@ -603,7 +603,7 @@ UpdateSelf()
             new_channels=$new_channels'{
                 "pid":'"${chnls_pid[i]}"',
                 "status":"'"${chnls_status[i]}"'",
-                "stream_link":"'"${chnls_stream_link[i]}"'",
+                "stream_link":"'"${chnls_stream_links[i]}"'",
                 "live":"'"${chnls_live[i]}"'",
                 "output_dir_name":"'"${chnls_output_dir_name[i]}"'",
                 "playlist_name":"'"${chnls_playlist_name[i]}"'",
@@ -757,6 +757,7 @@ GetChannelsInfo()
     chnls_pid=()
     chnls_status=()
     chnls_stream_link=()
+    chnls_stream_links=()
     chnls_live=()
     chnls_output_dir_name=()
     chnls_playlist_name=()
@@ -843,6 +844,7 @@ GetChannelsInfo()
         chnls_pid+=("$map_pid")
         chnls_status+=("$map_status")
         chnls_stream_link+=("${map_stream_links[0]}")
+        chnls_stream_links+=("$map_stream_link")
         chnls_live+=("$map_live")
         chnls_output_dir_name+=("$map_output_dir_name")
         chnls_playlist_name+=("$map_playlist_name")
@@ -1815,9 +1817,9 @@ FlvStreamCreatorWithShift()
                     bitrates=${bitrates%%,*}
                     if [[ "$bitrates" == *"-"* ]] 
                     then
-                        bitrates=${bitrates%-*}
                         resolution=${bitrates#*-}
                         resolution="-vf scale=${resolution//x/:}"
+                        bitrates=${bitrates%-*}
                     fi
 
                     if [ -n "$const" ] 
@@ -1832,9 +1834,9 @@ FlvStreamCreatorWithShift()
                 bitrates=${bitrates%%,*}
                 if [[ "$bitrates" == *"-"* ]] 
                 then
-                    bitrates=${bitrates%-*}
                     resolution=${bitrates#*-}
                     resolution="-vf scale=${resolution//x/:}"
+                    bitrates=${bitrates%-*}
                 fi
                 quality_command="-crf $quality -maxrate ${bitrates}k -bufsize ${bitrates}k"
                 if [ "$VIDEO_CODEC" == "libx265" ]
@@ -1889,9 +1891,9 @@ FlvStreamCreatorWithShift()
                     chnl_bitrates=${chnl_bitrates%%,*}
                     if [[ "$chnl_bitrates" == *"-"* ]] 
                     then
-                        chnl_bitrates=${chnl_bitrates%-*}
                         resolution=${chnl_bitrates#*-}
                         resolution="-vf scale=${resolution//x/:}"
+                        chnl_bitrates=${chnl_bitrates%-*}
                     fi
 
                     if [ -n "$chnl_const" ] 
@@ -1906,9 +1908,9 @@ FlvStreamCreatorWithShift()
                 chnl_bitrates=${chnl_bitrates%%,*}
                 if [[ "$chnl_bitrates" == *"-"* ]] 
                 then
-                    chnl_bitrates=${chnl_bitrates%-*}
                     resolution=${chnl_bitrates#*-}
                     resolution="-vf scale=${resolution//x/:}"
+                    chnl_bitrates=${chnl_bitrates%-*}
                 fi
                 chnl_quality_command="-crf $chnl_quality -maxrate ${chnl_bitrates}k -bufsize ${chnl_bitrates}k"
                 if [ "$chnl_video_codec" == "libx265" ]
@@ -1990,9 +1992,9 @@ FlvStreamCreatorWithShift()
                     bitrates=${bitrates%%,*}
                     if [[ "$bitrates" == *"-"* ]] 
                     then
-                        bitrates=${bitrates%-*}
                         resolution=${bitrates#*-}
                         resolution="-vf scale=${resolution//x/:}"
+                        bitrates=${bitrates%-*}
                     fi
 
                     if [ -n "$const" ] 
@@ -2007,9 +2009,9 @@ FlvStreamCreatorWithShift()
                 bitrates=${bitrates%%,*}
                 if [[ "$bitrates" == *"-"* ]] 
                 then
-                    bitrates=${bitrates%-*}
                     resolution=${bitrates#*-}
                     resolution="-vf scale=${resolution//x/:}"
+                    bitrates=${bitrates%-*}
                 fi
                 quality_command="-crf $quality -maxrate ${bitrates}k -bufsize ${bitrates}k"
                 if [ "$VIDEO_CODEC" == "libx265" ]
@@ -2115,9 +2117,9 @@ HlsStreamCreatorWithShift()
                     bitrates=${bitrates%%,*}
                     if [[ "$bitrates" == *"-"* ]] 
                     then
-                        bitrates=${bitrates%-*}
                         resolution=${bitrates#*-}
                         resolution="-vf scale=${resolution//x/:}"
+                        bitrates=${bitrates%-*}
                     fi
 
                     if [ -n "$const" ] 
@@ -2133,9 +2135,9 @@ HlsStreamCreatorWithShift()
                 bitrates=${bitrates%%,*}
                 if [[ "$bitrates" == *"-"* ]] 
                 then
-                    bitrates=${bitrates%-*}
                     resolution=${bitrates#*-}
                     resolution="-vf scale=${resolution//x/:}"
+                    bitrates=${bitrates%-*}
                 fi
                 quality_command="-crf $quality -maxrate ${bitrates}k -bufsize ${bitrates}k"
                 if [ "$VIDEO_CODEC" == "libx265" ]
@@ -2196,9 +2198,9 @@ HlsStreamCreatorWithShift()
                     chnl_bitrates=${chnl_bitrates%%,*}
                     if [[ "$chnl_bitrates" == *"-"* ]] 
                     then
-                        chnl_bitrates=${chnl_bitrates%-*}
                         resolution=${chnl_bitrates#*-}
                         resolution="-vf scale=${resolution//x/:}"
+                        chnl_bitrates=${chnl_bitrates%-*}
                     fi
 
                     if [ -n "$chnl_const" ] 
@@ -2214,9 +2216,9 @@ HlsStreamCreatorWithShift()
                 chnl_bitrates=${chnl_bitrates%%,*}
                 if [[ "$chnl_bitrates" == *"-"* ]] 
                 then
-                    chnl_bitrates=${chnl_bitrates%-*}
                     resolution=${chnl_bitrates#*-}
                     resolution="-vf scale=${resolution//x/:}"
+                    chnl_bitrates=${chnl_bitrates%-*}
                 fi
                 chnl_quality_command="-crf $chnl_quality -maxrate ${chnl_bitrates}k -bufsize ${chnl_bitrates}k"
                 if [ "$chnl_video_codec" == "libx265" ]
@@ -2313,9 +2315,9 @@ HlsStreamCreatorWithShift()
                     bitrates=${bitrates%%,*}
                     if [[ "$bitrates" == *"-"* ]] 
                     then
-                        bitrates=${bitrates%-*}
                         resolution=${bitrates#*-}
                         resolution="-vf scale=${resolution//x/:}"
+                        bitrates=${bitrates%-*}
                     fi
 
                     if [ -n "$const" ] 
@@ -2331,9 +2333,9 @@ HlsStreamCreatorWithShift()
                 bitrates=${bitrates%%,*}
                 if [[ "$bitrates" == *"-"* ]] 
                 then
-                    bitrates=${bitrates%-*}
                     resolution=${bitrates#*-}
                     resolution="-vf scale=${resolution//x/:}"
+                    bitrates=${bitrates%-*}
                 fi
                 quality_command="-crf $quality -maxrate ${bitrates}k -bufsize ${bitrates}k"
                 if [ "$VIDEO_CODEC" == "libx265" ]
@@ -4336,8 +4338,13 @@ Schedule()
                         else
                             flag=${time:0:1}
                         fi
-                        line=${line#*<em>}
-                        time=${line%%<\/em>*}
+                        if [[ "$line" == *"<em>"* ]] 
+                        then
+                            line=${line#*<em>}
+                            time=${line%%<\/em>*}
+                        else
+                            break
+                        fi
                     done
                     break
                 fi
@@ -5334,7 +5341,7 @@ MonitorHlsRestartChannel()
     for((i=0;i<hls_restart_nums;i++))
     do
         chnl_stream_links_count=${#chnl_stream_links[@]}
-        chnl_stream_links_index=$((hls_restart_nums % chnl_stream_links_count))
+        chnl_stream_links_index=$((i % chnl_stream_links_count))
         chnl_stream_link=${chnl_stream_links[chnl_stream_links_index]}
         action="skip"
         StopChannel > /dev/null 2>&1
